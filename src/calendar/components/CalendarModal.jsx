@@ -1,4 +1,4 @@
-import { addHours } from "date-fns/esm";
+import { addHours, differenceInSeconds } from "date-fns/esm";
 import { useState } from "react";
 
 import Modal from "react-modal";
@@ -53,6 +53,33 @@ export const CalendarModal = () => {
         setIsOpen(false);
     }
 
+    const onSubmit = ( evt ) => {
+        evt.preventDefault();
+
+        // validaciones
+        const difference = differenceInSeconds( formValues.end, formValues.start );
+
+        console.log({difference});
+
+        // si falta fecha de inicio o fin
+        // si la fecha fin es menor a la fecha inicio
+        if( isNaN(difference) || difference <= 0 ) {
+            console.log('error en fechas');
+            return;
+        }
+
+        // si el la nota (titulo) no es valido
+        if( formValues.title.length <= 0) return;
+
+        // TODO
+
+        // cerrar modal
+        // remover errores en pantalla
+
+        console.log({formValues});
+
+    }
+
   return (
     <Modal
         isOpen={ isOpen }
@@ -64,7 +91,7 @@ export const CalendarModal = () => {
     >
        <h1> Nuevo evento </h1>
         <hr />
-        <form className="container">
+        <form className="container" onSubmit={ onSubmit }>
             <div className="form-group mb-2">
                 <label for="start">Fecha y hora inicio</label>
                 <DatePicker
